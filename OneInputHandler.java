@@ -1,10 +1,11 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class OneInputHandler implements KeyListener{
+public class OneInputHandler extends GameMode{
 	Board board;
 	Paddle p1, p2;
 	Ball ball;
+	private int incr = 10;
 	
 	public OneInputHandler(Board board) {
 		this.board = board;
@@ -19,12 +20,13 @@ public class OneInputHandler implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {		//Using incr to remove the massive lag caused by calling move() right from here!
 		if(e.getKeyCode() == KeyEvent.VK_UP) {
-			p2.setIncr(-10);
+			p2.setIncr(-incr);
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-			p2.setIncr(10);
+			p2.setIncr(incr);
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			ball.paddleSound.stop();
 			System.exit(0);
 		}
 	}
@@ -42,13 +44,13 @@ public class OneInputHandler implements KeyListener{
 	public class AI implements Runnable {		//AI, duh...
 		public void run() {
 			while(true) {
-				if(ball.getY() < p1.getY()) {
+				if(ball.getY() - ball.getDiameter()/2 < p1.getY()) {
 					synchronized(p1) {
-						p1.setIncr(-10);
+						p1.setIncr(-incr);
 					}
 				}
-				else if(ball.getY() > p1.getY() + p1.getLength()) {
-					p1.setIncr(10);
+				else if(ball.getY() + ball.getDiameter()/2 > p1.getY() + p1.getLength()) {
+					p1.setIncr(incr);
 				}
 				else {
 					p1.setIncr(0);

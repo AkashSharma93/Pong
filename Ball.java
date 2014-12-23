@@ -7,6 +7,7 @@ public class Ball {
 	private int incrX, incrY;
 	private boolean miss;
 	Color color;
+	SoundPlayer paddleSound, ballSound;
 	
 	public Ball(int d, int x, int y, float s) {
 		diameter = d;
@@ -15,6 +16,8 @@ public class Ball {
 		initialSpeed = s;
 		incrX = incrY = 3;
 		color = Color.RED;
+		paddleSound = new PaddleSoundPlayer();
+		ballSound = new BallSoundPlayer(this);
 		
 		reset();
 	}
@@ -29,16 +32,19 @@ public class Ball {
 		}
 		else if((x + incrX - diameter/2 ) < 0) {	//Ball misses paddle1.
 			miss = true;
-			incrX = -incrX;
+			ballSound.playSound();
+			//incrX = -incrX;
 			p2.increaseScore();
 		}
 		else if((x + incrX + diameter/2) > bWidth) {		//Ball misses paddle2.
 			miss = true;
-			incrX = -incrX;
+			ballSound.playSound();
+			//incrX = -incrX;
 			p1.increaseScore();
 		}
 		
 		if((y + incrY + diameter/2) > bHeight || (y + incrY - diameter/2) < 0) {
+			ballSound.playSound();
 			incrY = - incrY;
 		}
 		
@@ -50,6 +56,7 @@ public class Ball {
 		if(((y + diameter/4 > p1.getY()) && (y - diameter/4 < (p1.getY() + p1.getLength()))) && (x - diameter/2 < (p1.getX() + p1.getBreadth()))) {
 			color = Color.WHITE;
 			p1.setColor(Color.WHITE);
+			paddleSound.playSound();
 			increaseSpeed();
 			return true;
 		}
@@ -57,6 +64,7 @@ public class Ball {
 		if(((y + diameter/4 > p2.getY()) && (y - diameter/4 < (p2.getY() + p2.getLength()))) && ((x + diameter/2) > p2.getX())) {
 			color = Color.WHITE;
 			p2.setColor(Color.WHITE);
+			paddleSound.playSound();
 			increaseSpeed();
 			return true;
 		}

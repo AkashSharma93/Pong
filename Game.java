@@ -3,11 +3,13 @@ import javax.swing.JFrame;
 
 
 public class Game {
+	static JFrame f;
+	
 	public static void main(String[] args) {
 		GameEngine ge = new GameEngine();
 		Board b = new Board();
 		
-		JFrame f = new JFrame();
+		f = new JFrame();
 		f.setUndecorated(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
