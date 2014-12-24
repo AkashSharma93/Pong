@@ -5,6 +5,8 @@ import javax.sound.sampled.Clip;
 public abstract class SoundPlayer {
 	AudioInputStream ais;
 	Clip clip;
+	private boolean jar = false;
+	String prefix = "src/";
 	
 	public void playSound() {
 		clip.setFramePosition(0);
@@ -16,5 +18,9 @@ public abstract class SoundPlayer {
 			clip.stop();
 			ais.close();
 		} catch(Exception e) { e.printStackTrace(); }
+	}
+	
+	public boolean makingJar() {
+		return jar;
 	}
 }

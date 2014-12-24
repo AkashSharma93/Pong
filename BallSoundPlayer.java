@@ -7,9 +7,10 @@ import javax.sound.sampled.Clip;
 
 
 public class BallSoundPlayer extends SoundPlayer{
-	private String filename1 = "src/Sounds/BallSound.wav";		//Add src/... to make it run in eclipse
-	private String filename2 = "src/Sounds/BallMissSound.wav";
-//	private URL url1, url2;
+	private String filename1 = "Sounds/BallSound.wav";		//Add src/... to make it run in eclipse
+	private String filename2 = "Sounds/BallMissSound.wav";
+	private URL url1, url2;
+	private File file;
 	
 	Clip clip2;
 	AudioInputStream ais2;
@@ -19,21 +20,32 @@ public class BallSoundPlayer extends SoundPlayer{
 	public BallSoundPlayer(Ball ball) {
 		this.ball = ball;
 		try {
-//			url1 = getClass().getResource(filename1);		//Used to make JAR.
-			File file = new File(filename1);
-			if(file.exists()) {
-				ais = AudioSystem.getAudioInputStream(file);
-				clip = AudioSystem.getClip();
-				clip.open(ais);
-			}
+			if(makingJar())
+				url1 = getClass().getResource(filename1);		//Used to make JAR.
+			else
+				file = new File(prefix + filename1);
 			
-//			url2 = getClass().getResource(filename2);
-			file = new File(filename2);
-			if(file.exists()) {
+			if(makingJar())
+				ais = AudioSystem.getAudioInputStream(url1);
+			else
+				ais = AudioSystem.getAudioInputStream(file);
+			
+			clip = AudioSystem.getClip();
+			clip.open(ais);
+			
+			if(makingJar())
+				url2 = getClass().getResource(filename2);
+			else
+				file = new File(prefix + filename2);
+			
+			if(makingJar())
+				ais2 = AudioSystem.getAudioInputStream(url2);
+			else
 				ais2 = AudioSystem.getAudioInputStream(file);
-				clip2 = AudioSystem.getClip();
-				clip2.open(ais2);
-			}
+			
+			clip2 = AudioSystem.getClip();
+			clip2.open(ais2);
+			
 		} catch(Exception e) { e.printStackTrace(); }
 	}
 	
