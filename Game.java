@@ -17,7 +17,7 @@ public class Game {
 		f.setVisible(true);
 	
 		try {
-			Thread.sleep(100);
+			Thread.sleep(500);
 		} catch(InterruptedException ie) {}
 		b.createObjects();
 		f.addKeyListener(new OneInputHandler(b));
