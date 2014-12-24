@@ -5,7 +5,7 @@ public class Ball {
 	private int x, y, initialX, initialY;
 	private float speed, initialSpeed;
 	private int incrX, incrY;
-	private boolean miss;
+	private boolean miss, speedFlag;
 	Color color;
 	SoundPlayer paddleSound, ballSound;
 	
@@ -29,6 +29,7 @@ public class Ball {
 	public void move(int bWidth, int bHeight, Paddle p1, Paddle p2) {
 		if(touchesPaddle(p1, p2)) {
 			incrX = -incrX;
+//			speedFlag = true;		//Used for the alternative way to increase ball speed.
 		}
 		else if((x + incrX - diameter/2 ) < 0) {	//Ball misses paddle1.
 			miss = true;
@@ -48,6 +49,11 @@ public class Ball {
 			incrY = - incrY;
 		}
 		
+/*		if(speedFlag && (x + diameter/2 > bWidth/2 && x - diameter/2 < bWidth/2)) {		//Could use this for an alternative way to increase the speed of the ball.
+			speedFlag = false;		//Increases ball speed only when it crosses the center of the board!
+			increaseSpeed();
+		}
+*/		
 		x += incrX * speed;
 		y += incrY * speed;
 	}
@@ -57,7 +63,8 @@ public class Ball {
 			color = Color.WHITE;
 			p1.setColor(Color.WHITE);
 			paddleSound.playSound();
-			increaseSpeed();
+			increaseSpeed();		//Primary way of increasing ball speed. Speed of ball increases only after hitting one of the paddles.
+			x = p1.getBreadth() + diameter/2 + 1;		//To fix the bug of the ball sticking to the paddle. (Happens when x remains less than the paddle's breadth even after increasing x!!
 			return true;
 		}
 		
@@ -66,6 +73,7 @@ public class Ball {
 			p2.setColor(Color.WHITE);
 			paddleSound.playSound();
 			increaseSpeed();
+			x = p2.getX() - diameter/2 - 1;				//Removes the sticky bug...
 			return true;
 		}
 		
@@ -84,6 +92,7 @@ public class Ball {
 		y = initialY;
 		speed = initialSpeed;
 		miss = false;
+		speedFlag = false;
 	}
 	
 	public int getDiameter() {
