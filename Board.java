@@ -1,8 +1,10 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 
 import javax.swing.JPanel;
 
@@ -16,6 +18,9 @@ public class Board extends JPanel {
 	public Board() {
 		scale = 25;
 		this.setBackground(Color.BLACK);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		boardHeight = (int) screenSize.getHeight();
+		boardWidth = (int) screenSize.getWidth();
 	}
 	
 	public Paddle getPaddle1() {
@@ -31,8 +36,8 @@ public class Board extends JPanel {
 	}
 	
 	public void createObjects() {
-		boardHeight = this.getHeight();
-		boardWidth = this.getWidth();
+//		boardHeight = this.getHeight();
+//		boardWidth = this.getWidth();
 		
 		ball = new Ball(boardWidth/scale, boardWidth/2, boardHeight/2, 1.0f);
 		paddle1 = new Paddle(PaddlePosition.LEFT, 5*scale, scale/2, boardWidth, boardHeight, Color.YELLOW);

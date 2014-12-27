@@ -16,9 +16,9 @@ public class Game {
 		f.getContentPane().add(b, BorderLayout.CENTER);
 		f.setVisible(true);
 	
-		try {
+/*		try {
 			Thread.sleep(500);
-		} catch(InterruptedException ie) {}
+		} catch(InterruptedException ie) {} */
 		b.createObjects();
 		f.addKeyListener(new OneInputHandler(b));
 		ge.draw(b);
